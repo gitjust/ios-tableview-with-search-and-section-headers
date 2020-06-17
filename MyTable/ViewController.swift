@@ -26,17 +26,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         searchBar.delegate = self
         filteredData = data
-        for fData in filteredData {
-            let key = String(fData.prefix(1))
-            if var d = dataDict[key] {
-                d.append(fData)
-                dataDict[key] = d
-            } else {
-                dataDict[key] = [fData]
-            }
-        }
-        dataSectTitles = [String](dataDict.keys)
-        dataSectTitles = dataSectTitles.sorted(by: { $0 < $1 })
+        makeSections()
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,6 +71,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 filteredData.append(fruit)
             }
         }
+        makeSections()
+        self.tableView.reloadData()
+    }
+    
+    func makeSections() {
         for fData in filteredData {
             let key = String(fData.prefix(1))
             if var d = dataDict[key] {
@@ -92,9 +87,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         dataSectTitles = [String](dataDict.keys)
         dataSectTitles = dataSectTitles.sorted(by: { $0 < $1 })
-
-        self.tableView.reloadData()
     }
-    
 }
 
